@@ -1,1 +1,7 @@
-a
+{
+  "name": "My TON App",
+  "description": "这是一个使用 TON Connect 的示例应用。",
+  "icon": "https://4583-171-221-147-77.ngrok-free.app/a.jpg",
+  "redirect_url": "https://t.me/duling_name_bot/testminiapp"
+}
+
