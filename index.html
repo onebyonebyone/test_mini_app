@@ -5,51 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TON Connect 示例</title>
   <script src="https://cdn.tonconnect.io/wallet-connector.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.tonconnect.io/wallet-connector.min.css">
 </head>
 <body>
   <h1>TON Connect 示例</h1>
   
-  <button id="connectButton">Connect Wallet</button>
-  <button id="disconnectButton">Disconnect Wallet</button>
-  <button id="sendTransactionButton">Send Transaction</button>
+  <div id="connectButtonContainer"></div>
 
   <script>
-    // 初始化 TON Connect
     const connector = new TonConnect({
-      manifestUrl: 'https://onebyonebyone.github.io/test_mini_app/your-manifest-url.json'
+      manifestUrl: 'https://your-manifest-url.json'
     });
 
-    // 连接钱包
-    document.getElementById('connectButton').addEventListener('click', async () => {
-      try {
-        await connector.connect();
-        const address = await connector.getAccounts();
-        console.log('Connected to wallet:', address);
-      } catch (error) {
-        console.error('Connection error:', error);
-      }
+    // 初始化 UI 组件
+    const connectButton = new TonConnect.UI.Button({
+      connector: connector,
+      text: 'Connect Wallet'
     });
 
-    // 断开连接
-    document.getElementById('disconnectButton').addEventListener('click', () => {
-      connector.disconnect();
-      console.log('Disconnected from wallet');
-    });
-
-    // 发送交易
-    document.getElementById('sendTransactionButton').addEventListener('click', async () => {
-      try {
-        const result = await connector.sendTransaction({
-          to: '0:123456789012345678901234567890123456789012345678901234567890123456',
-          value: '1000000000', // 1 TON in nanotons
-          bounce: true,
-          body: 'Te6ccgEBAQEAhQAAAAAABQAF8AAGHAAAApQADwPAD4B+ among other things'
-        });
-        console.log('Transaction sent:', result);
-      } catch (error) {
-        console.error('Transaction error:', error);
-      }
-    });
+    // 将按钮插入到指定的容器中
+    document.getElementById('connectButtonContainer').appendChild(connectButton.element);
 
     // 监听连接状态变化
     connector.on('connect', (accounts) => {
