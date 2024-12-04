@@ -4,36 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TON Connect 示例</title>
-  <script src="https://cdn.tonconnect.io/wallet-connector.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.tonconnect.io/wallet-connector.min.css">
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.css">
 </head>
 <body>
   <h1>TON Connect 示例</h1>
   
-  <div id="connectButtonContainer"></div>
+  <div id="ton-connect"></div>
+  <button onclick="connectToWallet()">Connect to Wallet</button>
 
   <script>
-    const connector = new TonConnect({
-      manifestUrl: 'https://onebyonebyone.github.io/test_mini_app/your-manifest-url.json'
+    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: 'https://onebyonebyone.github.io/test_mini_app/your-manifest-url.json',
+      buttonRootId: 'ton-connect',
+      uiOptions: {
+        twaReturnUrl: 'https://t.me/duling_name_bot/testminiapp'
+      }
     });
 
-    // 初始化 UI 组件
-    const connectButton = new TonConnect.UI.Button({
-      connector: connector,
-      text: 'Connect Wallet'
-    });
-
-    // 将按钮插入到指定的容器中
-    document.getElementById('connectButtonContainer').appendChild(connectButton.element);
-
-    // 监听连接状态变化
-    connector.on('connect', (accounts) => {
-      console.log('Connected to wallet:', accounts);
-    });
-
-    connector.on('disconnect', () => {
-      console.log('Disconnected from wallet');
-    });
+    async function connectToWallet() {
+      try {
+        const connectedWallet = await tonConnectUI.connectWallet();
+        // 处理连接成功的情况
+        console.log(connectedWallet);
+      } catch (error) {
+        // 处理连接失败的情况
+        console.error("Error connecting to wallet:", error);
+      }
+    }
   </script>
 </body>
 </html>
+
+
