@@ -1,7 +1,7 @@
 {
   "name": "My TON App",
   "description": "test",
-  "icon": "https://4dd2-171-221-147-157.ngrok-free.app/a.jpg",
-  "redirect_url": "https://t.me/duling_name_bot/testminiapp"
+  "iconUrl": "https://4dd2-171-221-147-157.ngrok-free.app/a.jpg",
+  "url": "https://t.me/duling_name_bot/testminiapp"
 }
 
