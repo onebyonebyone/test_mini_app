@@ -17,11 +17,13 @@
     const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
       manifestUrl: 'https://onebyonebyone.github.io/test_mini_app/tonconnect-manifest.json',
       buttonRootId: 'ton-connect',
-      uiOptions: {
-        twaReturnUrl: 'https://t.me/duling_name_bot/testminiapp'
-      }
+      // uiOptions: {
+      //   twaReturnUrl: 'https://t.me/duling_name_bot/testminiapp'
+      // }
     });
-
+tonConnectUI.uiOptions = {
+      twaReturnUrl: 'https://t.me/duling_name_bot/testminiapp'
+  };
     async function connectToWallet() {
       try {
         const connectedWallet = await tonConnectUI.connectWallet();
