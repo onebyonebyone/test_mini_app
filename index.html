@@ -34,8 +34,7 @@
         // 连接到钱包并获取钱包信息
         connectedWallet = await tonConnectUI.connectWallet();
         
-        // 检查是否是 TON 钱包
-        alert('连接的钱包类型: ' + connectedWallet);
+       console.log('连接的钱包:', connectedWallet);
     
         if (connectedWallet.walletType !== 'ton') {
           alert('仅支持 TON 钱包（如 Tonkeeper）');
