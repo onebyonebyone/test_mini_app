@@ -12,30 +12,68 @@
   
   <div id="ton-connect"></div>
   <button onclick="connectToWallet()">Connect to Wallet</button>
+  <button onclick="sendUSDT()">Send USDT</button>
 
   <script>
     const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
       manifestUrl: 'https://onebyonebyone.github.io/test_mini_app/tonconnect-manifest.json',
       buttonRootId: 'ton-connect',
-      // uiOptions: {
-      //   twaReturnUrl: 'https://t.me/duling_name_bot/testminiapp'
-      // }
     });
-tonConnectUI.uiOptions = {
+
+    tonConnectUI.uiOptions = {
       twaReturnUrl: 'https://t.me/duling_name_bot/testminiapp'
-  };
+    };
+
+    let walletAddress = '';
+    
+    // 连接钱包
     async function connectToWallet() {
       try {
         const connectedWallet = await tonConnectUI.connectWallet();
-        // 处理连接成功的情况
-        console.log(connectedWallet);
+        walletAddress = connectedWallet.address;
+        console.log('Connected wallet:', connectedWallet);
+        alert('Wallet connected: ' + walletAddress);
       } catch (error) {
-        // 处理连接失败的情况
-        console.error("Error connecting to wallet:", error);
+        console.error('Error connecting to wallet:', error);
+        alert('Error connecting to wallet');
+      }
+    }
+
+    // 发送 USDT
+    async function sendUSDT() {
+      if (!walletAddress) {
+        alert('Please connect your wallet first!');
+        return;
+      }
+
+      const amount = prompt("Enter the amount of USDT to send:");
+      if (amount && !isNaN(amount) && amount > 0) {
+        try {
+          // 发送 USDT 的交易数据
+          const transferData = {
+            from: walletAddress,
+            to: "receiver_wallet_address",  // 填写接收者的 TON 地址
+            amount: amount,
+            currency: "TON-USDT",  // 确保是 TON-USDT
+          };
+
+          // 调用 TON Connect 的发送支付 API
+          const transferResponse = await tonConnectUI.sendTransaction(transferData);
+          
+          if (transferResponse && transferResponse.success) {
+            alert('Payment successful!');
+          } else {
+            alert('Payment failed!');
+          }
+
+        } catch (error) {
+          console.error('Error sending USDT:', error);
+          alert('Error sending USDT');
+        }
+      } else {
+        alert('Invalid amount!');
       }
     }
   </script>
 </body>
 </html>
-
-
