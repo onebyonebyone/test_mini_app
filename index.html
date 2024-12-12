@@ -39,7 +39,7 @@
 
         // 检查是否是 TON 钱包（通过 name 字段）
         if (connectedWallet && connectedWallet.name && connectedWallet.name.includes('Ton')) {
-          walletAddress = connectedWallet.address;
+          walletAddress = connectedWallet.account.address;
           alert('连接的钱包类型是 TON 钱包: ' + connectedWallet.name);
         } else {
           alert('连接的钱包类型不是 TON 钱包');
