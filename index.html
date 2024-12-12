@@ -31,19 +31,19 @@
     // 连接到 TON 钱包（仅支持 TON 钱包）
     async function connectToWallet() {
       try {
-        // 连接到钱包并获取钱包信息
+        // 连接到钱包并获取连接对象
         connectedWallet = await tonConnectUI.connectWallet();
         
-       console.log('连接的钱包:', connectedWallet);
-    
-        if (connectedWallet.walletType !== 'ton') {
-          alert('仅支持 TON 钱包（如 Tonkeeper）');
-          return;
-        }
+        // 打印 connectedWallet，查看其实际结构
+        console.log('连接的钱包信息:', connectedWallet);
 
-        walletAddress = connectedWallet.address;
-        alert('钱包连接成功: ' + walletAddress);
-        console.log('连接的钱包:', connectedWallet);
+        // 检查是否是 TON 钱包（通过 name 字段）
+        if (connectedWallet && connectedWallet.name && connectedWallet.name.includes('Ton')) {
+          walletAddress = connectedWallet.address;
+          alert('连接的钱包类型是 TON 钱包: ' + connectedWallet.name);
+        } else {
+          alert('连接的钱包类型不是 TON 钱包');
+        }
       } catch (error) {
         console.error('连接钱包失败:', error);
         alert('连接钱包失败，请检查您的钱包设置');
