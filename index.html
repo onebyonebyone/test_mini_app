@@ -51,6 +51,7 @@
     }
 
     // 发送 USDT（仅支持 TON-USDT）
+    console.log('当前钱包地址:', walletAddress); 
     async function sendUSDT() {
       if (!walletAddress) {
         alert('请先连接钱包!');
