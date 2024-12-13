@@ -94,7 +94,7 @@
 </html>
  -->
 
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -114,7 +114,7 @@
   <script>
     // 创建 TON Connect UI 实例
     const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-      manifestUrl: 'https://onebyonebyone.github.io/test_mini_app/tonconnect-manifest.json',
+      manifestUrl: 'https://onebyonebyone.github.io/test_mini_app/tonconnect-manifest.json', // 确保这个地址有效
       buttonRootId: 'ton-connect',
     });
 
@@ -165,7 +165,7 @@
             messages: [
               {
                 address: "UQDk0B-nasXp046-4QCx7yfz_0sdTX_1CFvgIY9eWQAd454x", // 接收者地址
-                amount: String(amount * 1000000000), // 转账金额（Toncoin 单位是 nanotons）
+                amount: amount , // 转账金额（Toncoin 单位是 nanotons）
               }
             ]
           };
@@ -194,10 +194,11 @@
     async function sendToTestnet(transferResponse) {
       const transaction = transferResponse.transaction;
 
-      // 发送交易到 Testnet
+      // 使用 TON Client 提交交易到 Testnet
       try {
+        // 这里需要用 `ton-client` 来构造和发送交易
         const result = await client.processing.send_message({
-          message: transaction.message,
+          message: transaction.message, // 这里你需要确保 transaction.message 是正确的格式
           send_events: ['on-success', 'on-failure'], // 成功或失败时触发
         });
 
