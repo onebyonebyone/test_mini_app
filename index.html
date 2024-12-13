@@ -63,10 +63,10 @@
         try {
           // 确保发送的是 TON 代币（而非 USDT）
           const transferData = {
-            from: walletAddress,
-            to: "UQDk0B-nasXp046-4QCx7yfz_0sdTX_1CFvgIY9eWQAd454x",  // 替换为接收者的钱包地址
+        
+            address: "UQDk0B-nasXp046-4QCx7yfz_0sdTX_1CFvgIY9eWQAd454x",  // 替换为接收者的钱包地址
             amount: amount,
-            currency: "TON",  // 强制指定为 TON，而不是 USDT
+            // currency: "TON",  // 强制指定为 TON，而不是 USDT
           };
 
           // 调用 TON Connect 发送支付请求
