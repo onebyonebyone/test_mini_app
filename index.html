@@ -121,7 +121,7 @@
     // 创建 TonClient 实例连接到 Testnet
     const client = new TonClient({
       network: {
-        endpoints: ['https://testnet.toncenter.com/api/v3/jsonRPC'],  // 连接到 Testnet 网络
+        endpoints: ['https://testnet.toncenter.com/api/v2/jsonRPC?use_v2=true'],  // 连接到 Testnet 网络
       },
     });
 
