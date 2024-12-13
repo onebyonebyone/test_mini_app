@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -87,6 +87,128 @@
         }
       } else {
         alert('请输入有效的 TON 数量');
+      }
+    }
+  </script>
+</body>
+</html>
+ -->
+
+ <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TON Connect 示例</title>
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  <script src="https://unpkg.com/@tonclient/core@latest/dist/tonclient-core.min.js"></script>  <!-- 引入 ton-client -->
+  <link rel="stylesheet" href="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.css">
+</head>
+<body>
+  <h1>TON Connect 示例</h1>
+  
+  <div id="ton-connect"></div>
+  <button onclick="connectToWallet()">连接 TON 钱包</button>
+  <button onclick="sendTON()">发送 TON</button>
+
+  <script>
+    // 创建 TON Connect UI 实例
+    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: 'https://onebyonebyone.github.io/test_mini_app/tonconnect-manifest.json',
+      buttonRootId: 'ton-connect',
+    });
+
+    // 创建 TonClient 实例连接到 Testnet
+    const client = new TonClient({
+      network: {
+        endpoints: ['https://testnet.toncenter.com/api/v2/jsonRPC'],  // 连接到 Testnet 网络
+      },
+    });
+
+    let walletAddress = null;
+    let connectedWallet = null;
+
+    // 连接到 TON 钱包（仅支持 TON 钱包）
+    async function connectToWallet() {
+      try {
+        // 连接到钱包并获取连接对象
+        connectedWallet = await tonConnectUI.connectWallet();
+        
+        // 打印 connectedWallet，查看其实际结构
+        console.log('连接的钱包信息:', connectedWallet);
+
+        // 检查是否是 TON 钱包（通过 name 字段）
+        if (connectedWallet && connectedWallet.name && connectedWallet.name.includes('Ton')) {
+          walletAddress = connectedWallet.account.address;
+          alert('连接的钱包类型是 TON 钱包: ' + connectedWallet.name);
+        } else {
+          alert('连接的钱包类型不是 TON 钱包');
+        }
+      } catch (error) {
+        console.error('连接钱包失败:', error);
+        alert('连接钱包失败，请检查您的钱包设置');
+      }
+    }
+
+    // 发送 TON（代替 USDT）
+    async function sendTON() {
+      if (!walletAddress) {
+        alert('请先连接钱包!');
+        return;
+      }
+
+      const amount = prompt("请输入要发送的 TON 数量：");
+      if (amount && !isNaN(amount) && amount > 0) {
+        try {
+          // 创建转账数据对象
+          const transferData = {
+            messages: [
+              {
+                address: "UQDk0B-nasXp046-4QCx7yfz_0sdTX_1CFvgIY9eWQAd454x", // 接收者地址
+                amount: String(amount * 1000000000), // 转账金额（Toncoin 单位是 nanotons）
+              }
+            ]
+          };
+
+          // 通过 TON Connect UI 获取用户签名的交易
+          const transferResponse = await tonConnectUI.sendTransaction(transferData);
+
+          if (transferResponse && transferResponse.success) {
+            alert('支付成功！');
+            // 提交到 Testnet
+            await sendToTestnet(transferResponse);
+          } else {
+            alert('支付失败！');
+          }
+
+        } catch (error) {
+          console.error('发送 TON 失败:', error);
+          alert('发送 TON 时发生错误');
+        }
+      } else {
+        alert('请输入有效的 TON 数量');
+      }
+    }
+
+    // 提交交易到 Testnet 网络
+    async function sendToTestnet(transferResponse) {
+      const transaction = transferResponse.transaction;
+
+      // 发送交易到 Testnet
+      try {
+        const result = await client.processing.send_message({
+          message: transaction.message,
+          send_events: ['on-success', 'on-failure'], // 成功或失败时触发
+        });
+
+        if (result && result.success) {
+          console.log('交易已成功提交到 Testnet:', result);
+        } else {
+          console.error('交易提交失败:', result);
+        }
+      } catch (error) {
+        console.error('发送交易到 Testnet 失败:', error);
+        alert('发送交易到 Testnet 失败');
       }
     }
   </script>
