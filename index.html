@@ -114,7 +114,7 @@
   <script>
     // 创建 TON Connect UI 实例
     const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-      manifestUrl: 'https://onebyonebyone.github.io/test_mini_app/tonconnect-manifest.json', // 确保这个地址有效
+      manifestUrl: 'https://onebyonebyone.github.io/test_mini_app/tonconnect-manifest.json',
       buttonRootId: 'ton-connect',
     });
 
@@ -150,7 +150,7 @@
       }
     }
 
-    // 发送 TON（代替 USDT）
+    // 发送 TON
     async function sendTON() {
       if (!walletAddress) {
         alert('请先连接钱包!');
@@ -165,7 +165,7 @@
             messages: [
               {
                 address: "UQDk0B-nasXp046-4QCx7yfz_0sdTX_1CFvgIY9eWQAd454x", // 接收者地址
-                amount: amount , // 转账金额（Toncoin 单位是 nanotons）
+                amount: String(amount * 1e9), // 转账金额（Toncoin 单位是 nanotons）
               }
             ]
           };
@@ -173,10 +173,9 @@
           // 通过 TON Connect UI 获取用户签名的交易
           const transferResponse = await tonConnectUI.sendTransaction(transferData);
 
-          if (transferResponse && transferResponse.success) {
+          if (transferResponse && transferResponse.transaction) {
             alert('支付成功！');
-            // 提交到 Testnet
-            await sendToTestnet(transferResponse);
+            await sendToTestnet(transferResponse.transaction);  // 提交到 Testnet
           } else {
             alert('支付失败！');
           }
@@ -191,15 +190,11 @@
     }
 
     // 提交交易到 Testnet 网络
-    async function sendToTestnet(transferResponse) {
-      const transaction = transferResponse.transaction;
-
-      // 使用 TON Client 提交交易到 Testnet
+    async function sendToTestnet(transaction) {
       try {
-        // 这里需要用 `ton-client` 来构造和发送交易
         const result = await client.processing.send_message({
-          message: transaction.message, // 这里你需要确保 transaction.message 是正确的格式
-          send_events: ['on-success', 'on-failure'], // 成功或失败时触发
+          message: transaction.message,  // 确保 message 格式正确
+          send_events: ['on-success', 'on-failure'],  // 成功或失败时触发
         });
 
         if (result && result.success) {
@@ -215,3 +210,4 @@
   </script>
 </body>
 </html>
+
