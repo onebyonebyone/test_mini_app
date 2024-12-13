@@ -119,11 +119,11 @@
     });
 
     // 创建 TonClient 实例连接到 Testnet
-    const client = new TonClient({
-      network: {
-        endpoints: ['https://testnet.toncenter.com/api/v2/jsonRPC?use_v2=true'],  // 连接到 Testnet 网络
-      },
-    });
+    // const client = new TonClient({
+    //   network: {
+    //     endpoints: ['https://testnet.toncenter.com/api/v2/jsonRPC?use_v2=true'],  // 连接到 Testnet 网络
+    //   },
+    // });
 
     let walletAddress = null;
     let connectedWallet = null;
@@ -190,23 +190,23 @@
     }
 
     // 提交交易到 Testnet 网络
-    async function sendToTestnet(transaction) {
-      try {
-        const result = await client.processing.send_message({
-          message: transaction.message,  // 确保 message 格式正确
-          send_events: ['on-success', 'on-failure'],  // 成功或失败时触发
-        });
+    // async function sendToTestnet(transaction) {
+    //   try {
+    //     const result = await client.processing.send_message({
+    //       message: transaction.message,  // 确保 message 格式正确
+    //       send_events: ['on-success', 'on-failure'],  // 成功或失败时触发
+    //     });
 
-        if (result && result.success) {
-          console.log('交易已成功提交到 Testnet:', result);
-        } else {
-          console.error('交易提交失败:', result);
-        }
-      } catch (error) {
-        console.error('发送交易到 Testnet 失败:', error);
-        alert('发送交易到 Testnet 失败');
-      }
-    }
+    //     if (result && result.success) {
+    //       console.log('交易已成功提交到 Testnet:', result);
+    //     } else {
+    //       console.error('交易提交失败:', result);
+    //     }
+    //   } catch (error) {
+    //     console.error('发送交易到 Testnet 失败:', error);
+    //     alert('发送交易到 Testnet 失败');
+    //   }
+    // }
   </script>
 </body>
 </html>
