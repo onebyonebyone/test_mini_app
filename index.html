@@ -95,15 +95,11 @@
       }
     }
 
-    
-
-  
-
-    // 初始化 Telegram Web App
-        Telegram.WebApp.init();
 
         // 获取用户信息
         function getUserInfo() {
+          // 初始化 Telegram Web App
+        Telegram.WebApp.init();
             // 获取初始化数据
             const user = Telegram.WebApp.initDataUnsafe;
 
