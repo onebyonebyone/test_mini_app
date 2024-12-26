@@ -18,9 +18,12 @@
   <button onclick="sendTON()">发送 TON</button>
  <button onclick="getUserInfo()">Get User Info</button>
   <script>
-     // 初始化 Telegram Web App
-      const initData =  Telegram.WebApp.init();
-    console.log(initData);
+      // Telegram Web App 自动初始化，直接使用 initDataUnsafe
+        window.onload = function() {
+            if (Telegram.WebApp.initDataUnsafe) {
+                console.log("User info loaded:", Telegram.WebApp.initDataUnsafe);
+            }
+        };
     // 创建 TON Connect UI 实例
     const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
       manifestUrl: 'https://onebyonebyone.github.io/test_mini_app/tonconnect-manifest.json',
