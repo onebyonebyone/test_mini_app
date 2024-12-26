@@ -109,7 +109,7 @@
             const data = Telegram.WebApp.initDataUnsafe;
 
             if (data) {
-                alert(`Hello, ${data.user}! `);
+                alert(`Hello, ${data.user.first_name}! your logo is: ${data.user.photo_url} your id is ${data.user.id} `);
             } else {
                 alert("User data is not available.");
             }
