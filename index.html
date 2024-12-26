@@ -17,10 +17,7 @@
   <button onclick="connectToWallet()">连接 TON 钱包</button>
   <button onclick="sendTON()">发送 TON</button>
   <button onclick="sendStars()">发送 Stars</button>
- <!-- 使用 <a> 标签包装按钮 -->
-    <a href="https://t.me/$N6mSE237aVdKAQAA36i_8YMStuw" target="_blank">
-        <button>发送 Stars</button>
-    </a>
+ <button onclick="sendStars()">发送 Stars</button>
   <script>
       // Telegram Web App 自动初始化，直接使用 initDataUnsafe
         window.onload = function() {
@@ -104,7 +101,10 @@
         alert('请输入有效的 TON 数量');
       }
     }
-
+function sendStars() {
+            // 跳转到 Telegram 链接
+            window.location.href = "https://t.me/$N6mSE237aVdKAQAA36i_8YMStuw";
+        }
 
         // 获取用户信息
         function getUserInfo() {
