@@ -107,7 +107,7 @@
             
             // 使用 Telegram.WebApp.openLink 在小程序内部打开链接
             if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.openLink(link);
+                window.Telegram.WebApp.openInvoice(link);
             } else {
                 alert("Telegram WebApp API is not available");
             }
