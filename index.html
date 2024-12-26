@@ -106,10 +106,10 @@
         function getUserInfo() {
          
             // 获取初始化数据
-            const user = Telegram.WebApp.initDataUnsafe;
+            const data = Telegram.WebApp.initDataUnsafe;
 
-            if (user) {
-                alert(`Hello, ${user.first_name} ${user.last_name}! Your Telegram ID is ${user.id}`);
+            if (data) {
+                alert(`Hello, ${data.user}! `);
             } else {
                 alert("User data is not available.");
             }
